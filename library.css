@@ -1,0 +1,10 @@
+#display{
+    display:flex;
+    flex-wrap:wrap;
+    height: 100px;
+}
+.div{
+    border: solid;
+    box-sizing: border-box;
+    margin:10px;
+}
