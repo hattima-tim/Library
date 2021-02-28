@@ -5,31 +5,36 @@ function Book(title,author,pages,read){
     this.pages=pages
     this.read=read
 }
-function addToLibrary(){
-    title=prompt("Title")
-    author=prompt("Author")
-    pages=prompt("pages")
-    read=prompt("Did you finished it?")
-    let a=0;
-    myLibrary[a]=new Book(title,author,pages,read)
-    a++;
-}
-addToLibrary()
-let displayDiv=document.querySelector("div")
+let displayDiv=document.querySelector("#display")
 function display(){
-    let books=myLibrary.map(book=>{
-        let div=document.createElement("div")
-        let text1=document.createElement("p")
-        text1.textContent=book.title
-        let text2=document.createElement("p")
-        text2.textContent=book.author
-        let text3=document.createElement("p")
-        text3.textContent=book.pages
-        div.appendChild(text1)
-        div.appendChild(text2)
-        div.appendChild(text3)
-        div.classList.add("div")
-        displayDiv.appendChild(div)
-    })
+    let div=document.createElement("div")
+    let text1=document.createElement("p")
+    text1.textContent=myLibrary[a].title
+    let text2=document.createElement("p")
+    text2.textContent=myLibrary[a].author
+    let text3=document.createElement("p")
+    text3.textContent=myLibrary[a].pages
+    div.appendChild(text1)
+    div.appendChild(text2)
+    div.appendChild(text3)
+    div.classList.add("div")
+    displayDiv.appendChild(div)
 }
-display()
+let form=document.querySelector("#form")
+let createButton=document.getElementById("newBook")
+createButton.addEventListener('click',()=>{
+    form.setAttribute('id','super');
+    submitButton.style.display="block"
+})
+let a=0;
+let submitButton=document.querySelector("#submit")
+submitButton.addEventListener('click',()=>{
+    form.setAttribute('id','form');
+    submitButton.style.display="none"    
+    title=form[0].value;
+    author=form[1].value;
+    pages=form[2].value;
+    myLibrary[a]=new Book(title,author,pages);
+    display();
+    a++;
+})

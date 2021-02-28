@@ -1,3 +1,15 @@
+#super{
+    display: flex;
+    height: 200px;
+    width: 300px;
+    flex-direction: column ;
+}
+#form{
+    display: none;
+}
+#submit{
+    display: none;
+}
 #display{
     display:flex;
     flex-wrap:wrap;
