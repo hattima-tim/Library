@@ -49,12 +49,7 @@ function display(){
     div.classList.add("div")
     displayDiv.appendChild(div)
 }
-let form=document.querySelector("#form")
-let createButton=document.getElementById("newBook")
-createButton.addEventListener('click',()=>{
-    form.setAttribute('id','super');
-    submitButton.style.display="block"
-})
+let form=document.querySelector("#super")
 let a=0;
 let b;
 let submitButton=document.querySelector("#submit")
@@ -62,11 +57,9 @@ let toggleStatusButton;
 let removeButtons;
 let c;
 submitButton.addEventListener('click',()=>{
-    /*form.setAttribute('id','form');
-    submitButton.style.display="none"*/    
-    title=form[0].value;
-    author=form[1].value;
-    pages=form[2].value;
+    title=`Title-${form[0].value}`;
+    author=`Author-${form[1].value}`;
+    pages=`Pages-${form[2].value}`;
     if (form[3].checked==true){
         read=form[3].value;
     }
