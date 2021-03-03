@@ -5,13 +5,17 @@
         <link rel="stylesheet" href="library.css">
     </head>
     <button id="newBook">New Book</button>
-    <form id="form">
-        <label for="title">Title</label>
-        <input type="text" id="title" name="bookTitle" value="">
-        <label for="author">Author</label>
-        <input type="text" id="author" name="bookAuthor" value="">
-        <label for="pages">Pages</label>
-        <input type="number" id="pages" name="bookPages" value="">
+    <form id="super">
+        <label for="title">Title</label><br>
+        <input type="text" id="title" name="bookTitle" value="" required><br>
+        <label for="author">Author</label><br>
+        <input type="text" id="author" name="bookAuthor" value="" required><br>
+        <label for="pages">Pages</label><br>
+        <input type="number" id="pages" name="bookPages" value="" required><br>
+        <input type="checkbox" id="read" name="read" value="read">
+        <label for="read">Read</label><br>
+        <input type="checkbox" id="notRead" name="notRead" value="Not Read">
+        <label for="notRead">Didn't Read</label><br>
     </form>
     <button id="submit">Submit</button>
     <div id="display">
