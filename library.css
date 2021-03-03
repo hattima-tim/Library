@@ -1,8 +1,5 @@
 #super{
-    display: flex;
-    height: 200px;
-    width: 300px;
-    flex-direction: column ;
+    display: block;
 }
 #form{
     display: none;
