@@ -9,19 +9,25 @@
     <header id="header">
         <h1>LIBRARY</h1>
     </header>
-    <form id="super">
-        <label for="title">Title</label><br>
-        <input type="text" id="title" name="bookTitle" value="" required><br>
-        <label for="author">Author</label><br>
-        <input type="text" id="author" name="bookAuthor" value="" required><br>
-        <label for="pages">Pages</label><br>
-        <input type="number" id="pages" name="bookPages" value="" required><br>
-        <input type="checkbox" id="read" name="read" value="read">
-        <label for="read">Read</label><br>
-        <input type="checkbox" id="notRead" name="notRead" value="Not Read">
-        <label for="notRead">Didn't Read</label><br>
+    <div class="addBook">
+        <button id="addBook">Add Book</button>
+    </div>
+    <form id="form" onsubmit="return false">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <label for="title">Title</label><br>
+            <input type="text" id="title" name="bookTitle" value="" required><br>
+            <label for="author">Author</label><br>
+            <input type="text" id="author" name="bookAuthor" value="" required><br>
+            <label for="pages">Pages</label><br>
+            <input type="number" id="pages" name="bookPages" value="" required><br>
+            <input type="checkbox" id="read" name="read" value="read">
+            <label for="read">Read</label><br>
+            <input type="checkbox" id="notRead" name="notRead" value="Not Read">
+            <label for="notRead">Didn't Read</label><br>
+            <button id="submit">Add Book</button>
+        </div>
     </form>
-    <button id="submit">Add Book</button>
     <div id="display">
     </div>
     <script src="library.js"></script>
