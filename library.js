@@ -1,18 +1,27 @@
+let form=document.querySelector("#form");
+let addBookButton=document.querySelector("#addBook");
+addBookButton.onclick=()=>{
+    form.style.display="block"
+}
+
 let myLibrary=[];
-function Book(title,author,pages,read){
-    this.title=title
-    this.author=author
-    this.pages=pages
-    this.read=read
-}
-Book.prototype.toggleStatus=function(){
-    if (this.read=="read"){
-        this.read="Not Read"
+class Book{
+    constructor(title,author,pages,read){
+        this.title=title;
+        this.author=author;
+        this.pages=pages;
+        this.read=read;
     }
-    else if(this.read=="Not Read"){
-        this.read="read"
+    toggleStatus(){
+        if (this.read=="read"){
+            this.read="Not Read";
+        }
+        else if(this.read=="Not Read"){
+            this.read="read";
+        }
     }
 }
+
 let displayDiv=document.querySelector("#display");
 function display(){
     let div=document.createElement("div");
@@ -50,17 +59,11 @@ function display(){
     displayDiv.appendChild(div);
 }
 
-let addBookButton=document.querySelector("#addBook");
-addBookButton.onclick=()=>{
-    form.style.display="block"
-}
-
-let form=document.querySelector("#form");
 let a=0;
-let submitButton=document.querySelector("#submit");
 let toggleStatusButton;
 let removeButtons;
 let updateIndexOfToggleButton;
+let submitButton=document.querySelector("#submit");
 submitButton.addEventListener('click',()=>{
     title=`Title-${form[0].value}`;
     author=`Author-${form[1].value}`;
