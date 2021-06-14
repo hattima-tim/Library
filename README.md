@@ -14,5 +14,3 @@ This website will let you create a __card__ for each book you want to track.This
 4. A form will appear,fill up the form with information about the book you want to track.
 5. Submit the form.After submitting the form you will see that your book has been added.
 6. You can repeat the process as many times you want.Enjoy!
-
-> WARNING: Right now this project is not connected with a remote storage,so if you reload the website or the browser automatically reloads the website you will lose all the data!Sorry for the inconvenience!
