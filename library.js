@@ -1,107 +1,128 @@
 let form=document.querySelector("#form");
+let containerElementForAllBooks=document.querySelector("#display");
+let myLibrary=JSON.parse(localStorage.getItem('myLibrary')) || [];
+
 let addBookButton=document.querySelector("#addBook");
 addBookButton.onclick=()=>{
     form.style.display="block"
 }
 
-let myLibrary=[];
-class Book{
-    constructor(title,author,pages,read){
-        this.title=title;
-        this.author=author;
-        this.pages=pages;
-        this.read=read;
+let book=(title,author,pages,readStatus)=>{
+    return {title,author,pages,readStatus};
+}
+
+let toggle_read_status_of_book_in_book_object=(book)=>{
+    if(book.readStatus=='read'){
+        book.readStatus='Not Read';
+        localStorage.setItem('myLibrary',JSON.stringify(myLibrary)); /*since I changed the value of a book object of myLibrary array
+        I am updating myLibrary array stored in localStorage */
     }
-    toggleStatus(){
-        if (this.read=="read"){
-            this.read="Not Read";
-        }
-        else if(this.read=="Not Read"){
-            this.read="read";
-        }
+    else {
+        book.readStatus='read';
+        localStorage.setItem('myLibrary',JSON.stringify(myLibrary));
+    }
+}
+let toggle_read_status_of_book_in_book_DOM_struture=(e)=>{
+    let book_info_container_element_of_selected_book=e.target.parentNode;
+    let index_of_the_element_showing_book_read_status=3;
+    let index_of_toggle_read_status_button=4;
+
+    book_info_container_element_of_selected_book.children[index_of_the_element_showing_book_read_status].textContent=`${myLibrary[e.target.dataset.index].readStatus}`;
+
+    if (myLibrary[e.target.dataset.index].readStatus=="read"){
+        book_info_container_element_of_selected_book.children[index_of_toggle_read_status_button].textContent="Didn't Read";
+    }
+    else if(myLibrary[e.target.dataset.index].readStatus=="Not Read") {
+        book_info_container_element_of_selected_book.children[index_of_toggle_read_status_button].textContent="Read";
     }
 }
 
-let displayDiv=document.querySelector("#display");
-function display(){
-    let div=document.createElement("div");
-    let text1=document.createElement("p");
-    text1.textContent=myLibrary[a].title;
-    let text2=document.createElement("p");
-    text2.textContent=myLibrary[a].author;
-    let text3=document.createElement("p");
-    text3.textContent=myLibrary[a].pages;
-    let text4=document.createElement("p");
-    text4.textContent=myLibrary[a].read;    
+let removeBook=(e)=>{
+    myLibrary.splice(`${e.target.dataset.index}`,1);
+    localStorage.setItem('myLibrary',JSON.stringify(myLibrary));
+    containerElementForAllBooks.removeChild(e.target.parentNode);
 
-    let toggleStatusButton=document.createElement("button"); 
-    if (myLibrary[a].read=="read"){
-        toggleStatusButton.textContent="Didn't Read";
+}
+
+let update_index_of_toogle_read_status_remove_book_buttons=()=>{
+    let toggleReadButtons=document.querySelectorAll(".toggleReadStatusButton");
+    let bookRemoveButtons=document.querySelectorAll('.removeButton');
+    for(let i=0;i<=myLibrary.length-1;i++){
+        toggleReadButtons[i].setAttribute('data-index',`${i}`);
+        bookRemoveButtons[i].setAttribute('data-index',`${i}`);
     }
-    else if(myLibrary[a].read=="Not Read") {
-        toggleStatusButton.textContent="read";
+}
+
+let createDomStructureForBook=(indexOfBook)=>{
+    let bookInfoContainerElement=document.createElement("div");
+    let bookTitle=document.createElement("p");
+    bookTitle.textContent=myLibrary[indexOfBook].title;
+    let bookAuthor=document.createElement("p");
+    bookAuthor.textContent=myLibrary[indexOfBook].author;
+    let bookPageAmount=document.createElement("p");
+    bookPageAmount.textContent=myLibrary[indexOfBook].pages;
+    let bookReadStatus=document.createElement("p");
+    bookReadStatus.textContent=myLibrary[indexOfBook].readStatus;    
+
+    let toggleReadStatusButton=document.createElement("button"); 
+    if (myLibrary[indexOfBook].readStatus=="read"){
+        toggleReadStatusButton.textContent="Didn't Read";
     }
-    toggleStatusButton.classList.add("toggleStatus");
-    toggleStatusButton.setAttribute('data-index',`${myLibrary.indexOf(myLibrary[a])}`);
-    
+    else if(myLibrary[indexOfBook].readStatus=="Not Read") {
+        toggleReadStatusButton.textContent="Read";
+    }
+
+    toggleReadStatusButton.classList.add("toggleReadStatusButton");
+    toggleReadStatusButton.setAttribute('data-index',`${indexOfBook}`);
+    toggleReadStatusButton.addEventListener('click',(e)=>{
+        toggle_read_status_of_book_in_book_object(myLibrary[e.target.dataset.index]);
+        toggle_read_status_of_book_in_book_DOM_struture(e);
+    })
+
     let removeButton=document.createElement("button");
     removeButton.textContent="Remove";
     removeButton.classList.add("removeButton");
-    removeButton.setAttribute('data-index',`${myLibrary.indexOf(myLibrary[a])}`);
+    removeButton.setAttribute('data-index',`${myLibrary.indexOf(myLibrary[indexOfBook])}`);
+    removeButton.addEventListener('click',(e)=>{
+        removeBook(e);
+        update_index_of_toogle_read_status_remove_book_buttons();
+    })
     
-    div.appendChild(text1);
-    div.appendChild(text2);
-    div.appendChild(text3);
-    div.appendChild(text4);
-    div.appendChild(toggleStatusButton);
-    div.appendChild(removeButton);
-    div.classList.add("div");
-    displayDiv.appendChild(div);
+    bookInfoContainerElement.appendChild(bookTitle);
+    bookInfoContainerElement.appendChild(bookAuthor);
+    bookInfoContainerElement.appendChild(bookPageAmount);
+    bookInfoContainerElement.appendChild(bookReadStatus);
+    bookInfoContainerElement.appendChild(toggleReadStatusButton);
+    bookInfoContainerElement.appendChild(removeButton);
+    bookInfoContainerElement.classList.add("div");
+    containerElementForAllBooks.appendChild(bookInfoContainerElement);
 }
 
-let a=0;
-let toggleStatusButton;
-let removeButtons;
-let updateIndexOfToggleButton;
-let submitButton=document.querySelector("#submit");
-submitButton.addEventListener('click',()=>{
+let showAllStoredBooks=()=>{
+    for (let i=0;i<myLibrary.length;i++){
+        createDomStructureForBook(i);
+    }
+}
+showAllStoredBooks();
+
+let formSubmitButton=document.querySelector("#submit");
+formSubmitButton.addEventListener('click',()=>{
     title=`Title-${form[0].value}`;
     author=`Author-${form[1].value}`;
     pages=`Pages-${form[2].value}`;
     if (form[3].checked==true){
-        read=form[3].value;
+        readStatus=form[3].value;
     }
     else if(form[4].checked==true){
-        read=form[4].value;
+        readStatus=form[4].value;
     }
     if (title!='Title-' && author!="Author-" && pages!='Pages-' && (form[3].checked || form[4].checked)){
-        myLibrary[a]=new Book(title,author,pages,read);
-        display();
-
-        toggleStatusButton=document.querySelectorAll(".toggleStatus");
-        toggleStatusButton[a].addEventListener('click',(e)=>{
-            myLibrary[e.target.dataset.index].toggleStatus();
-            let c=e.target.parentNode;
-            c.children[3].textContent=`${myLibrary[e.target.dataset.index].read}`;
-            if (myLibrary[e.target.dataset.index].read=="read"){
-                c.children[4].textContent="Didn't Read";
-            }
-            else if(myLibrary[e.target.dataset.index].read=="Not Read") {
-                c.children[4].textContent="Read";
-            }
-        })
+        myLibrary.push(book(title,author,pages,readStatus));
+        localStorage.setItem('myLibrary',JSON.stringify(myLibrary));
     
-        removeButtons=document.querySelectorAll('.removeButton');
-        removeButtons[a].addEventListener('click',(e)=>{
-            a--;
-            myLibrary.splice(`${e.target.dataset.index}`,1);
-            displayDiv.removeChild(e.target.parentNode);
-            updateIndexOfToggleButton=document.querySelectorAll(".toggleStatus");
-            for(let i=0;i<=a-1;i++){
-                updateIndexOfToggleButton[i].dataset.index=`${myLibrary.indexOf(myLibrary[i])}`;
-            }
-        })
-        a++;
+        let indexOfNewBook=myLibrary.length-1;
+        createDomStructureForBook(indexOfNewBook);
+
         form.style.display="none";
     }
 })
