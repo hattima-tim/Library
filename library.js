@@ -116,13 +116,14 @@ formSubmitButton.addEventListener('click',()=>{
     else if(form[4].checked==true){
         readStatus=form[4].value;
     }
-    if (title!='Title-' && author!="Author-" && pages!='Pages-' && (form[3].checked || form[4].checked)){
+    if ((form[3].checked || form[4].checked)){
         myLibrary.push(book(title,author,pages,readStatus));
         localStorage.setItem('myLibrary',JSON.stringify(myLibrary));
     
         let indexOfNewBook=myLibrary.length-1;
         createDomStructureForBook(indexOfNewBook);
-
+        
+        form.reset();
         form.style.display="none";
     }
 })
